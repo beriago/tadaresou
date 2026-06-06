@@ -22,8 +22,8 @@ body {
 .container {
   background: rgba(255,255,255,0.6);
   backdrop-filter: blur(10px);
-  margin: 80px auto;
-  padding: 40px;
+  margin: 40px auto;
+  padding: 25px;
   width: 90%;
   max-width: 600px;
   border-radius: 20px;
@@ -54,9 +54,10 @@ h1 {
 
 /* 結果 */
 .resultBox {
-  margin-top: 25px;
-  font-size: 22px;
-  padding: 15px;
+  margin-top: 12px;
+  font-size: 18px;
+  line-height: 1.6;
+  padding: 10px;
   border-radius: 12px;
   background: rgba(255,255,255,0.4);
 }
@@ -65,10 +66,11 @@ h1 {
 ul {
   list-style: none;
   padding: 0;
+  margin: 5px 0;
 }
 
 li {
-  margin: 5px 0;
+  margin: 3px 0;
 }
 
 li::before {
@@ -101,6 +103,50 @@ li::before {
   font-size: 13px;
 }
 
+hr {
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.15);
+  margin: 12px 0;
+}
+
+
+.imageCard{
+  background:#f6e3ea;
+  border-radius:24px;
+  padding:32px;
+  text-align:center;
+  color:#4b3328;
+}
+.imageSection{
+  margin:18px 0;
+}
+.imageTitle{
+  font-size:14px;
+  opacity:.7;
+  margin-bottom:8px;
+}
+.imageDivider{
+  border-top:1px dashed rgba(0,0,0,.2);
+  margin:14px 0;
+}
+
+
+.captureLabel{
+  font-size:15px;
+  font-weight:bold;
+  color:#7a6a6a;
+  margin-bottom:8px;
+}
+.captureDivider{
+  width:70%;
+  margin:14px auto;
+  border-top:1px dashed rgba(0,0,0,.18);
+}
+.captureAbility{
+  margin:6px 0;
+  line-height:1.5;
+}
+
 </style>
 </head>
 
@@ -116,13 +162,14 @@ li::before {
 <button class="mainBtn smallBtn" onclick="downloadImage()">ダウンロード</button>
 <div id="messageBox"></div>
 
-<div style="margin-top:10px;font-size:12px;color:#666;">
+<div style="margin-top:6px;font-size:12px;color:#666;">
 結果画像を投稿する場合は「コピー」→「Xでシェア」の順でご利用ください。<br>
 投稿画面で貼り付けると画像を添付できます。
 </div>
 
-<div class="resultBox" id="raceResult">種族が表示される</div>
-<div class="resultBox" id="abilityResult">能力が表示される</div>
+<div class="resultBox" id="resultBox">
+診断結果がここに表示されます
+</div>
 
 <div id="colorOptions"></div>
 
@@ -971,6 +1018,33 @@ const abilities = ["1: 電流を使って敵の神経を麻痺させる",
 "800: 能力の発動ごとに制御が難しくなり最終的に暴走する"
 ];
 
+
+
+const traits = [
+"人見知り","面倒見が良い","負けず嫌い","好奇心旺盛","楽観的","悲観的","冷静沈着","短気","マイペース","責任感が強い",
+"飽きっぽい","努力家","頑固","素直","心配性","大雑把","几帳面","せっかち","のんびり屋","寂しがり屋",
+"嘘が苦手","お世辞が言えない","空気を読みすぎる","空気を読まない","頼み事を断れない","つい反論してしまう","一人の時間が好き","集団行動が得意","初対面に強い","緊張しやすい",
+"秘密を抱え込みやすい","人を疑えない","人を信用しない","意外と涙もろい","義理堅い","自信家","自己評価が低い","他人を放っておけない","変なところで意地を張る","勝負事になると熱くなる",
+"甘いものが好き","辛いものが好き","偏食気味","大食い","少食","朝に弱い","夜更かししがち","寝付きが良い","寝付きが悪い","寝相が悪い",
+"高所が苦手","暗所が苦手","閉所が苦手","水が苦手","虫が苦手","暑さに弱い","寒さに弱い","方向音痴","忘れ物が多い","体力がない",
+"料理が得意","料理が苦手","掃除が好き","掃除が苦手","裁縫が得意","絵を描くのが好き","歌うのが好き","読書家","機械いじりが好き","園芸が趣味",
+"動物に好かれやすい","子供に懐かれやすい","年上に可愛がられやすい","年下の面倒を見がち","収集癖がある","日記をつけている","散歩が好き","運動が好き","運動が苦手","音楽がないと落ち着かない",
+"変な知識が豊富","記憶力が良い","顔を覚えるのが得意","名前を覚えるのが苦手","直感で動く","理屈で考える","考え込みすぎる","行動が早い","慎重すぎる","集中すると周りが見えなくなる",
+"妙なところで鋭い","無駄に勘が良い","縁起を気にする","ロマンチスト","現実主義者","意外と嫉妬深い","好き嫌いが激しい","変化を好む","安定を好む","運が良い",
+"納得できないと徹底的に追及する","気になったことを放置できない","一度決めると滅多に考えを変えない","思いつきで行動してしまう","他人の矛盾にすぐ気付く","無意識に観察している","勝手に役割分担を考えてしまう","選択肢が多いと迷う","選択肢が少ないと不安になる","常に最悪の事態を想定する",
+"何でも理由を知りたがる","人の秘密に興味がある","他人の嘘を見抜こうとする","話の裏を考える癖がある","不自然な沈黙が気になる","会話の流れを操作したくなる","人の反応を試したくなる","相手の本音を探ってしまう","駆け引きを楽しむ","無意識に交渉している",
+"一人で考え込む時間が必要","追い詰められると妙に冷静になる","危機的状況ほど集中できる","退屈に耐えられない","変化がないと落ち着かない","意味のないルールが嫌い","効率の悪さが気になる","無駄な争いを避けたがる","面白そうな方を選ぶ","興味がないと覚えない",
+"人の名前より特徴で覚える","予想が当たると少し嬉しい","勘で当てることが多い","負けても原因を分析する","勝っても反省点を探す","他人の失敗から学ぶ","自分の失敗をネタにする","予備案を用意する癖がある","最後の切り札を残したがる","本番に強い",
+"本番に弱い","相手の期待を背負い込みやすい","自分の限界を試したがる","直感と理屈がよく喧嘩する","無理だと言われると挑戦したくなる","謎や未解決問題に惹かれる","気付くと中心人物になっている","気付くと裏方に回っている","他人の成長を見るのが好き","自分だけのこだわりを持っている",
+"軽い規則違反に罪悪感がない","禁止されると試したくなる","危険な噂を集めるのが好き","ギリギリを攻めたがる","スリルを求める","面倒事に巻き込まれやすい","面倒事に首を突っ込みやすい","逃げ道を先に確保する","疑われることに慣れている","嘘をつくのが上手い",
+"嘘を見破られない自信がある","借りは返す主義","恩より恨みを忘れない","やり返さないと気が済まない","一発逆転が好き","勝つためなら多少手段を選ばない","正攻法より裏技を探す","ルールの穴を探してしまう","人の裏の顔を見るのが好き","危険人物と仲良くなりがち",
+"自分を過小評価して油断させる","必要なら演技をする","情報収集が得意","人の弱点を覚えている","秘密を握るのが好き","騒動を少し面白がる","無茶振りに強い","修羅場慣れしている","圧力をかけられると反発する","上から命令されるのが嫌い",
+"自分の流儀を優先する","他人の評価をあまり気にしない","敵を作りやすい","味方になると頼もしい","負け戦でも降りない","最後までカードを隠す","口が悪い","挑発に乗りやすい","挑発するのが上手い","相手を観察して揺さぶる",
+"勝負になると性格が変わる","不利な状況ほど燃える","危険な賭けを選びがち","トラブル対応が妙に上手い","一度決めた相手は見捨てない","義理のためなら損をする","表向きと本音が違う","追われると逃げ切りたくなる","強敵を見ると挑みたくなる","火種を見つけると少しワクワクする"
+];
+
+
+
 function generateRace() {
   const rand = Math.random();
   let count = rand < 0.3 ? 1 : rand < 0.8 ? 2 : 3;
@@ -978,7 +1052,7 @@ function generateRace() {
   const shuffled = [...races].sort(() => 0.5 - Math.random());
   const selected = shuffled.slice(0, count);
 
-  return `【${["純血","ハーフ","キメラ"][count-1]}】 ${selected.join(" × ")}`;
+  return selected.join(" × ");
 }
 
 function generateAbility() {
@@ -987,17 +1061,84 @@ function generateAbility() {
   return shuffled.slice(0, count);
 }
 
+
+const aptitudeLabels = ["筋力","知力","俊敏","精神","社交性","能力"];
+const aptitudeRanks = [
+  ["SSS",1],
+  ["SS",8],
+  ["S",18],
+  ["A",18],
+  ["B",18],
+  ["C",18],
+  ["D",18],
+  ["E",8],
+  ["F",1]
+];
+
+function getWeightedRank() {
+  const total = aptitudeRanks.reduce((s, r) => s + r[1], 0);
+  let roll = Math.random() * total;
+
+  for (const [rank, weight] of aptitudeRanks) {
+    roll -= weight;
+    if (roll < 0) return rank;
+  }
+  return "B";
+}
+
+function generateAptitudes() {
+  return aptitudeLabels
+    .map(label => `${label}${getWeightedRank()}`)
+    .join("　");
+}
+
+let currentAptitudes = "";
+
+let currentTrait = [];
+
 function generateAll() {
 
   const race = generateRace();
   const ability = generateAbility();
+  const trait = generateTrait();
+  const aptitudes = generateAptitudes();
 
-  document.getElementById("raceResult").innerHTML = race;
+  currentTrait = trait;
+  currentAptitudes = aptitudes;
 
-  document.getElementById("abilityResult").innerHTML =
-    "<ul>" + ability.map(a => `<li>${a}</li>`).join("") + "</ul>";
+  document.getElementById("resultBox").innerHTML =
+    `
+    <div style="font-size:14px; opacity:0.7; margin-bottom:4px;">【種族】</div>
+    ${race}
+
+    <hr>
+
+    <div style="font-size:14px; opacity:0.7; margin-bottom:4px;">【能力】</div>
+    <ul>${ability.map(a => `<li>${a}</li>`).join("")}</ul>
+
+    <hr>
+
+    <div style="font-size:14px; opacity:0.7; margin-bottom:4px;">【特徴】</div>
+    <ul>${trait.map(t => `<li>${t}</li>`).join("")}</ul>
+
+    <hr>
+
+    <div style="font-size:14px; opacity:0.7; margin-bottom:4px;">【適性】</div>
+    <div style="font-size:16px;">${aptitudes}</div>
+    `;
 
   generateColorOptions();
+}
+
+function generateTrait() {
+
+  const count = 2;
+
+  const shuffled =
+    [...traits].sort(() => 0.5 - Math.random());
+
+  return shuffled.slice(0, count);
+
 }
 
 // カラー
@@ -1026,7 +1167,7 @@ function generateColorOptions() {
     const btn = document.createElement("div");
 
     btn.innerHTML = `
-    <svg viewBox="0 0 100 100" width="100" height="100">
+    <svg viewBox="0 0 100 100" width="65" height="65">
       <path d="M50 90 L20 60 A20 20 0 1 1 50 30 A20 20 0 1 1 80 60 Z"
         fill="${color}"
         stroke="#000000"
@@ -1047,7 +1188,7 @@ function generateHeartHTML() {
 
   currentColors.forEach(color => {
     html += `
-    <svg viewBox="0 0 100 100" width="60" height="60" style="margin:5px;">
+    <svg viewBox="0 0 100 100" width="60" height="60" style="margin:0;">
       <path d="M50 90 L20 60 A20 20 0 1 1 50 30 A20 20 0 1 1 80 60 Z"
         fill="${color}"
         stroke="#000"
@@ -1062,15 +1203,15 @@ function generateHeartHTML() {
 // コピー
 function copyResult() {
 
-  const race = document.getElementById("raceResult").innerText;
-  const ability = document.getElementById("abilityResult").innerText;
+  const race = document.getElementById("resultBox").innerText.trim();
+  const trait = "";
 
   const capture = document.getElementById("captureContent");
 
   capture.innerHTML = `
     <div style="
-      width: 400px;
-      padding: 30px;
+      width: 450px;
+      padding: 35px;
       background: #ffe4ec;
       color: #5a3e2b;
       font-family: sans-serif;
@@ -1079,17 +1220,33 @@ function copyResult() {
     ">
       <h2>タダレ荘 種族診断</h2>
 
-      <p>${race}</p>
-
-      <p style="white-space: pre-line">${ability}</p>
-
-      <div style="margin-top:20px;">
-        ${generateHeartHTML()}
-      </div>
-
 <div style="
   margin-top:20px;
-  font-size:12px;
+  margin-bottom:20px;
+  line-height:1.7;
+">
+
+  ${race
+    .replace("【種族】", "<div style='font-size:14px;color:#777;font-weight:bold;'>【種族】</div>")
+    .replace("【能力】", "<hr style='margin:14px 0;border:none;border-top:1px dashed #c8aeb8;'><div style='font-size:14px;color:#777;font-weight:bold;'>【能力】</div>")
+    .replace("【特徴】", "<hr style='margin:14px 0;border:none;border-top:1px dashed #c8aeb8;'><div style='font-size:14px;color:#777;font-weight:bold;'>【特徴】</div>")
+    .replace("【適性】", "<hr style='margin:14px 0;border:none;border-top:1px dashed #c8aeb8;'><div style='font-size:14px;color:#777;font-weight:bold;'>【適性】</div>")
+    .replace(/\n/g,"<br>")
+  }
+
+</div>
+
+<div style="
+  margin-top:8px;
+  margin-bottom:4px;
+  transform:scale(0.85);
+">
+  ${generateHeartHTML()}
+</div>
+
+<div style="
+  margin-top:6px;
+  font-size:11px;
   color:#666;
 ">
   https://beriago.github.io/tadaresou/
@@ -1112,15 +1269,14 @@ showMessage("コピーしたよ！");
 
 function downloadImage() {
 
-  const race = document.getElementById("raceResult").innerText;
-  const ability = document.getElementById("abilityResult").innerText;
+  const race = document.getElementById("resultBox").innerText.trim();
 
   const capture = document.getElementById("captureContent");
 
   capture.innerHTML = `
     <div style="
-      width: 400px;
-      padding: 30px;
+      width: 450px;
+      padding: 35px;
       background: #ffe4ec;
       color: #5a3e2b;
       font-family: sans-serif;
@@ -1129,9 +1285,22 @@ function downloadImage() {
     ">
       <h2>タダレ荘 種族診断</h2>
 
-      <p>${race}</p>
 
-      <p style="white-space: pre-line">${ability}</p>
+<div style="
+  margin-top:20px;
+  margin-bottom:20px;
+  line-height:1.7;
+">
+
+  ${race
+    .replace("【種族】", "<div style='font-size:14px;color:#777;font-weight:bold;'>【種族】</div>")
+    .replace("【能力】", "<hr style='margin:14px 0;border:none;border-top:1px dashed #c8aeb8;'><div style='font-size:14px;color:#777;font-weight:bold;'>【能力】</div>")
+    .replace("【特徴】", "<hr style='margin:14px 0;border:none;border-top:1px dashed #c8aeb8;'><div style='font-size:14px;color:#777;font-weight:bold;'>【特徴】</div>")
+    .replace("【適性】", "<hr style='margin:14px 0;border:none;border-top:1px dashed #c8aeb8;'><div style='font-size:14px;color:#777;font-weight:bold;'>【適性】</div>")
+    .replace(/\n/g,"<br>")
+  }
+
+</div>
 
       <div style="margin-top:20px;">
         ${generateHeartHTML()}
@@ -1173,15 +1342,12 @@ function showMessage(text) {
 
 function shareX() {
 
-  const race = document.getElementById("raceResult").innerText;
-  const ability = document.getElementById("abilityResult").innerText;
+  const result = document.getElementById("resultBox").innerText.trim();
 
   const text =
 `タダレ荘 種族診断
 
-${race}
-
-${ability}
+${result}
 
 ▼診断はこちら
 https://beriago.github.io/tadaresou/`;
