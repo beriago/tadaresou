@@ -186,7 +186,6 @@ const races = [
 "幻獣族",
 "怪物族",
 "不定形族",
-"大天使族",
 "天使族",
 "堕天族",
 "魔王族",
@@ -202,7 +201,6 @@ const races = [
 "妖樹族",
 "花族",
 "宝石族",
-"鉱石族",
 "長耳族",
 "巨人族",
 "鬼族",
@@ -210,8 +208,6 @@ const races = [
 "魚人族",
 "海洋族",
 "人型族",
-"人形族",
-"機械族",
 "人工生命",
 ];
 
@@ -1046,8 +1042,8 @@ const traits = [
 
 
 function generateRace() {
-  const rand = Math.random();
-  let count = rand < 0.3 ? 1 : rand < 0.8 ? 2 : 3;
+const rand = Math.random();
+let count = rand < 0.35 ? 1 : rand < 0.90 ? 2 : 3;
 
   const shuffled = [...races].sort(() => 0.5 - Math.random());
   const selected = shuffled.slice(0, count);
@@ -1055,23 +1051,33 @@ function generateRace() {
   return selected.join(" × ");
 }
 
+
 function generateAbility() {
-  const count = Math.floor(Math.random() * 3) + 1;
-  const shuffled = [...abilities].sort(() => 0.5 - Math.random());
+
+  const rand = Math.random();
+
+  let count =
+    rand < 0.60 ? 1 :
+    rand < 0.90 ? 2 :
+    3;
+
+  const shuffled =
+    [...abilities].sort(() => 0.5 - Math.random());
+
   return shuffled.slice(0, count);
 }
 
 
 const aptitudeLabels = ["筋力","知力","俊敏","精神","社交性","能力"];
 const aptitudeRanks = [
-  ["SSS",1],
-  ["SS",8],
-  ["S",18],
-  ["A",18],
-  ["B",18],
-  ["C",18],
-  ["D",18],
-  ["E",8],
+  ["SSS",3],
+  ["SS",12],
+  ["S",16],
+  ["A",16],
+  ["B",16],
+  ["C",16],
+  ["D",16],
+  ["E",12],
   ["F",1]
 ];
 
